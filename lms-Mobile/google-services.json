@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "613938346762",
+    "firebase_url": "https://starlit-surge-275110.firebaseio.com",
+    "project_id": "starlit-surge-275110",
+    "storage_bucket": "starlit-surge-275110.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:613938346762:android:666dc4aad230eb8c5398f3",
+        "android_client_info": {
+          "package_name": "com.msit.lmsmobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnYUhsMdgR8uGgpVftIwnFWGZD2Ji-Kuw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "613938346762-43apnvf42aqaat657v8ci4gktq4diahv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:613938346762:android:d8547bf3f872429b5398f3",
+        "android_client_info": {
+          "package_name": "com.msitlms"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDnYUhsMdgR8uGgpVftIwnFWGZD2Ji-Kuw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "613938346762-43apnvf42aqaat657v8ci4gktq4diahv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

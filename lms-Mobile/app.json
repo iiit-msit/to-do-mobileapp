@@ -1,0 +1,46 @@
+{
+  "expo": {
+    "name": "LMS-Mobile",
+    "description":"Welcome to the LMS-Mobile!",
+    "slug": "lms-Mobile",
+    "sdkVersion": "37.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/msit.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "android": {
+      "googleServicesFile": "./google-services.json",
+      "package": "com.msit.lmsmobile",
+      "config": {
+        "googleSignIn": {
+          "apiKey": "AIzaSyBssX1mQECwvDN0TmwgtxIiPAqBoYbQsuM",
+          "certificateHash": "87C173F57DC535660B38299858A3C62DC14FB0A4"
+        }
+      }
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "bundleIdentifier": "com.msit.lmsmobile",
+      "config": {
+        "googleSignIn": {
+          "reservedClientId": "148455826215-op6k3hgm1g7tubgnqimfn54gdb400dmt.apps.googleusercontent.com"
+        }
+      }
+    },
+    "description": ""
+  }
+}
