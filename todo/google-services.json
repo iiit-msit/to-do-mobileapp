@@ -1,0 +1,31 @@
+{
+  "project_info": {
+    "project_number": "480482274859",
+    "firebase_url": "https://evident-time-279013.firebaseio.com",
+    "project_id": "evident-time-279013",
+    "storage_bucket": "evident-time-279013.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:480482274859:android:418a07a7456e69ee8ac46e",
+        "android_client_info": {
+          "package_name": "com.msit.lmsmobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNyYlU3Gs8Xq43IhYkIWKsXZE-kUO-brE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+    
+  ],
+  "configuration_version": "1"
+}

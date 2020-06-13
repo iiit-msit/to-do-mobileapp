@@ -1,0 +1,167 @@
+import React, {Component} from 'react'
+import * as Google from 'expo-google-app-auth';
+import { StyleSheet, Text, View, Image, TouchableOpacity, ActivityIndicator} from 'react-native';
+import { logger } from 'react-native-logs';
+import { AsyncStorage } from 'react-native';
+import { API_URL, ANDROID_CLIENT_ID, ANDROID_STANDALONE_CLIENT_ID, REDIRECT_URL, IMAGE_URL, IOS_CLIENT_ID, IOS_STANDALONE_CLIENT_ID} from 'react-native-dotenv'
+/*
+The laoding bar
+*/
+const Loader = () => (
+  <View style={styles.container}>
+            <Text>One moment please...</Text>
+            <Text>{"\n"}</Text> 
+            <ActivityIndicator size="large"/>
+  </View>
+);
+
+/*
+The signin screen component for authentication and 
+authorization
+*/
+class SignInScreen extends Component {
+   //state to check the valid user
+   state = {
+    signedIn: false,
+    name: "",
+    photoUrl: "",
+    loading : false
+  }
+  
+  //async function to call the google oauth and lms API
+  signInWithGoogleAuth = async() => {
+    //var log = logger.createLogger();
+    try{
+        
+        
+        const result = await Google.logInAsync({
+          androidClientId: "480482274859-7c83a6k3m8bqg0mtahrurd3c8b68ksvo.apps.googleusercontent.com",
+          scopes: ["profile", "email"]
+          
+        });
+        if (result.type === "success") {
+            this.setState({
+            signedIn: true,
+            name: result.name,
+            photoUrl: result.photoUrl
+          })
+        } else {
+          console.log("cancelled")
+        }
+      } 
+    
+    catch (e) {
+      console.log("error", e)
+    }    
+}
+
+render() {
+  //if invalid user
+  
+    //loading bar
+    // if(this.state.loading){
+    //   return(< Loader/>)
+    // }
+    // else{
+
+      //return with error msg
+      return (
+          <View style = {styles.container}>
+            
+            
+              <Text style={styles.welcomeText}>Welcome</Text>
+              <Text>{"\n"}</Text> 
+              <TouchableOpacity style={[styles.buttonContainer, styles.googleButton]} onPress={() => this.signInWithGoogleAuth()}>
+                <View style={styles.socialButtonContent}>
+                  <Text style={styles.loginText}>Sign-in with Google</Text>
+                </View>  
+              </TouchableOpacity>
+      </View>
+      );
+    }
+  
+  
+}
+
+
+const styles = StyleSheet.create({
+container: {
+  flex: 1,
+  backgroundColor: '#fff',
+  alignItems: 'center',
+  justifyContent: 'center',
+},
+
+logo:{
+   width: 138, height: 165, alignItems: 'center', bottom:90}
+,
+
+welcomeText:{
+  fontWeight: "bold", fontSize:25, paddingBottom:50},
+
+plainText:{alignContent:"center", left:10},
+
+inputContainer: {
+  borderBottomColor: '#F5FCFF',
+  backgroundColor: '#FFFFFF',
+  borderRadius:30,
+  borderBottomWidth: 1,
+  width:250,
+  height:45,
+  marginBottom:15,
+  flexDirection: 'row',
+  alignItems:'center'
+},
+inputs:{
+  height:45,
+  marginLeft:16,
+  borderBottomColor: '#FFFFFF',
+  flex:1,
+},
+icon:{
+width:15,
+height:15,
+},
+inputIcon:{
+marginLeft:15,
+justifyContent: 'center'
+},
+buttonContainer: {
+height:45,
+flexDirection: 'row',
+justifyContent: 'center',
+alignItems: 'center',
+marginBottom:20,
+width:250,
+borderRadius:30,
+},
+loginButton: {
+backgroundColor: '#3498db',
+},
+fabookButton: {
+backgroundColor: "#3b5998",
+},
+googleButton: {
+backgroundColor: "#3498db",
+},
+loginText: {
+color: 'white',
+fontSize: 17,
+},
+restoreButtonContainer:{
+width:250,
+marginBottom:15,
+alignItems: 'flex-end'
+},
+socialButtonContent:{
+flexDirection: 'row',
+justifyContent: 'center',
+alignItems: 'center', 
+},
+socialIcon:{
+color: "#FFFFFF",
+marginRight:5
+}
+});
+ 
+export default SignInScreen;
