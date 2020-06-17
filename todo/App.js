@@ -7,7 +7,6 @@ import DatePicker from 'react-native-datepicker';
 import moment from 'moment';
 
 
-
 export default class App extends React.Component {
   constructor(props) {
     super(props)
@@ -49,32 +48,33 @@ async get_events() {
       .then(response =>  response.json())
       .then((data)=> 
       { 
-       
           console.log(data)
           this.setState({
-      
             dataSource: data
             })
-        
-        
       })
       .catch(error=>console.log(error))
 }
 
+signout(){
+  this.setState({signedIn:false}),
+  
+  <LoginPage signIn={this.signIn}/>
+}
+
+
   
   
-  render() {
+render() {
     return ( 
       <View style={styles.container}>
         {this.state.signedIn ? (
         
           <View style={styles.container}>
           <Header
-           placement="left"
-          leftComponent={{ icon: 'menu', color: '#fff',size:35 }}
-          centerComponent={{ text: 'ToDo List', style: { color: 'black',fontSize : 30 ,fontWeight:"bold"} }}
-          rightComponent={<DatePicker
-  
+           
+          leftComponent={
+            <DatePicker
               date={this.state.date}
               mode="date"
               placeholder="select date"
@@ -87,35 +87,42 @@ async get_events() {
                 dateIcon: {
                   position: 'absolute',
                   left: 0,
-                  top: 5,
-                  marginLeft: 0,
-                  
+                  bottom : 20,
+                  marginLeft: 0,  
                 },
                 dateInput: {
-                  marginLeft: 36,
-                  marginTop : 6,
+                  marginLeft:30,
+                  marginBottom: 30,
                 
                 }
-                // ... You can check the source to find the other keys.
               }}
-              onDateChange={(date) => {this.setState({date: date}),this.get_events()}}
-              
+              onDateChange={(date) => {this.setState({date: date}),this.get_events()}}     
             />}
-          
+          centerComponent={{ text: 'ToDo List', style: { color: 'white',fontSize : 30 ,fontWeight:"bold",marginBottom:30,textAlign:"center",marginLeft: 40} }}
+          rightComponent={
+            <View style = {{marginBottom:30,size : 100}}>
+            <Button
+              color = "green"
+              title="LogOut"
+              
+              onPress={() => this.signout()
+            }/>
+          </View>
+      }
           
           backgroundColor="#3D6DCC"
-
         />
             {this.state.dataSource.length === 0 ?(
               <View style={styles.container}>
             <Text style = {{fontSize : 30}}>No event scheduled today</Text>
-            </View>)
-            :(
+            </View>
+            ):(
+              <SafeAreaView style={styles.container}>
              <FlatList
-             
                data={this.state.dataSource} 
                 renderItem={({ item }) => <Item item={item} />} 
              />
+             </SafeAreaView>
             )}
            </View >
         ) : (
@@ -127,24 +134,21 @@ async get_events() {
   }
 }
 
+
 function Item({ item }) {
-  //console.log(item)
+  
   return (
     <ScrollView>
-    
-    <View style={styles.item}>
-      
+    <View style={styles.item}> 
       <Text style={styles.head}>Title : {item.summary} </Text> 
       <Text style={styles.text}>Description : {item.description} </Text>
       <Text style={styles.text}>Created : {item.created} </Text>
       <Text style={styles.text}>Start : {item.start.dateTime} </Text>
       <Text style={styles.text}>End : {item.end.dateTime} </Text>
-      <Text style={styles.text}>Created By : {item.creator.email} </Text>
-      
-      
+      <Text style={styles.text}>Created By : {item.creator.email} </Text>  
     </View>  
     </ScrollView>
-  );
+  )
 }
 
 
@@ -164,20 +168,18 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    
   },
   header: {
     fontSize: 25
   },
-  container1: {
-    flex: 1,
-    marginTop: Constants.statusBarHeight,
-  },
+  
   item: {
     backgroundColor: 'skyblue',
     padding: 20,
     marginVertical: 8,
-    marginHorizontal: 0,
+    marginHorizontal: 0
   },
   head: {
     fontSize: 20,
