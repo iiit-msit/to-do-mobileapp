@@ -1,10 +1,12 @@
-import React from "react"
-import {SafeAreaView, FlatList, StyleSheet, Text, View, Button,ActivityIndicator,Alert, ScrollView } from "react-native"
+import React from "react";
+import {SafeAreaView, FlatList, StyleSheet, Text, View, Button,ActivityIndicator,Alert, ScrollView } from "react-native";
 import * as Google from 'expo-google-app-auth';
 import Constants from 'expo-constants';
 import { Header } from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
 import moment from 'moment';
+import AccordianMenu from "./AccordianMenu";
+import {AsyncStorage} from 'react-native';
 
 
 export default class App extends React.Component {
@@ -16,7 +18,8 @@ export default class App extends React.Component {
       name: "",
       email : "",
      dataSource : [],
-     date:moment(today).format("YYYY-MM-DD")
+     date:moment(today).format("YYYY-MM-DD"),
+     
     }
   }
 
@@ -33,7 +36,10 @@ export default class App extends React.Component {
           email : result.user.email
           })
           //console.log(this.state.email)
+          const userDetails = await result.json;
+          AsyncStorage.setItem('userData',JSON.stringify(userDetails));
           this.get_events();
+  
       } else {
         console.log("cancelled")
       }
@@ -41,6 +47,8 @@ export default class App extends React.Component {
       console.log("error", e)
     }
   }
+
+
 async get_events() {
   //console.log(this.state.email);
   //console.log(this.state.date);
@@ -58,12 +66,11 @@ async get_events() {
 
 signout(){
   this.setState({signedIn:false}),
-  
+  AsyncStorage.clear();    
+
   <LoginPage signIn={this.signIn}/>
 }
 
-
-  
   
 render() {
     return ( 
@@ -117,12 +124,9 @@ render() {
             <Text style = {{fontSize : 30}}>No event scheduled today</Text>
             </View>
             ):(
-              <SafeAreaView style={styles.container}>
-             <FlatList
-               data={this.state.dataSource} 
-                renderItem={({ item }) => <Item item={item} />} 
-             />
-             </SafeAreaView>
+            <View style={styles.accordian}>
+                  {this.renderAccordians()}
+            </View>
             )}
            </View >
         ) : (
@@ -132,25 +136,24 @@ render() {
       
     );
   }
+
+  renderAccordians = () => {
+    const items = [];
+    for (item of this.state.dataSource) {
+      items.push(
+        <AccordianMenu
+          title={item.summary}
+          data={(<Text style={styles.text}>Description :{item.description}</Text>)}
+          created_on = {(<Text style={styles.text}>Created on :{item.created}</Text>)} 
+          Start = {(<Text style={styles.text}>Start at :{item.start.dateTime}</Text>)}
+          End = {(<Text style={styles.text}>Ends at :{item.end.dateTime}</Text>)}
+          Created_by = {(<Text style={styles.text}>Created by: {item.creator.email}</Text>)}
+        />
+      );
+    }
+    return items;
+  }
 }
-
-
-function Item({ item }) {
-  
-  return (
-    <ScrollView>
-    <View style={styles.item}> 
-      <Text style={styles.head}>Title : {item.summary} </Text> 
-      <Text style={styles.text}>Description : {item.description} </Text>
-      <Text style={styles.text}>Created : {item.created} </Text>
-      <Text style={styles.text}>Start : {item.start.dateTime} </Text>
-      <Text style={styles.text}>End : {item.end.dateTime} </Text>
-      <Text style={styles.text}>Created By : {item.creator.email} </Text>  
-    </View>  
-    </ScrollView>
-  )
-}
-
 
 
 const LoginPage = props => {
@@ -186,6 +189,11 @@ const styles = StyleSheet.create({
   },
   text:{
     fontSize: 17,
-  }
+  },
+  accordian: {
+    flex: 1,
+    width: "100%",
+    backgroundColor: "#FFFFFF",
+  },
 
 })
