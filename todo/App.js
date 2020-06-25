@@ -1,5 +1,5 @@
 import React from "react"
-import { SafeAreaView, FlatList, StyleSheet, Text, View, Button, ActivityIndicator, Alert, ScrollView, ListView } from "react-native"
+import {  StyleSheet, Text, View, Button, ActivityIndicator, Alert, ScrollView, ListView } from "react-native"
 import * as Google from 'expo-google-app-auth';
 import Constants from 'expo-constants';
 import { Header } from 'react-native-elements';
@@ -7,6 +7,7 @@ import DatePicker from 'react-native-datepicker';
 import moment from 'moment';
 import AccordianMenu from "./AccordionMenu";
 import { AsyncStorage } from 'react-native';
+import { hide } from "expo/build/launch/SplashScreen";
 
 
 
@@ -92,11 +93,11 @@ export default class App extends React.Component {
       console.log("error", e)
     }
   }
+  
   async get_events() {
-    await this.checkDetails();
     //console.log(this.state.email);
     //console.log(this.state.date);
-    await fetch(`http://192.168.43.132:5000/mydayevents/${this.state.email}/${this.state.date}`)
+    await fetch(`http://192.168.43.132:5000/events/${this.state.date}/${this.state.email}`)
       .then(response => response.json())
       .then((data) => {
 
@@ -230,6 +231,8 @@ export default class App extends React.Component {
           Start={(<Text>Start at :{item.start.dateTime}</Text>)}
           End={(<Text>Ends at :{item.end.dateTime}</Text>)}
           Created_by={(<Text>Created by: {item.creator.email}</Text>)}
+          event_id = {item.id}
+          email_id = {this.state.email}
 
 
 
