@@ -50,7 +50,7 @@ export default class App extends React.Component {
       let resp = await AsyncStorage.getItem('userDetails')
       if (resp != null) {
         let userDetails = resp;
-        console.log(userDetails)
+        // console.log(userDetails)
         let info = await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${userDetails.idToken}`)
           .then(response => {
             if (response.status != 200) {
@@ -97,14 +97,14 @@ export default class App extends React.Component {
   async get_events() {
     //console.log(this.state.email);
     //console.log(this.state.date);
-    await fetch(`http://192.168.43.132:5000/events/${this.state.date}/${this.state.email}`)
+    await fetch(`http://192.168.43.254:5000/events/${this.state.date}/${this.state.email}`)
       .then(response => response.json())
       .then((data) => {
 
-        //console.log(data)
+        //console.log(data.body)
         this.setState({
 
-          dataSource: data
+          dataSource: data.body
         })
       })
       .catch(error => console.log(error))
@@ -115,39 +115,7 @@ export default class App extends React.Component {
     <LoginPage signIn={this.signIn} />
   }
 
-  // checkDetails = () => {
-
-  //   // console.debug(`Trying to Check url for token ${this.state.idToken}`)
-  //   // await fetch(`https://oauth2.googleapis.com/tokeninfo?id_token=${this.state.idToken}`)
-  //   //   .then(
-  //   //     (response) => {
-  //   //       if (response.status == 200) {
-  //   //         response.json((data) => {
-  //   //           console.log(data)
-  //   //         })
-  //   //       }
-  //   //     });
-  //   console.debug(`Trying to get from refresh token ${this.state.refreshToken}`)
-  //   fetch(`https://oauth2.googleapis.com/token?client_id=957732613139-a4rbsd7po036hqh8u6ocn9vslsbgn9m8.apps.googleusercontent.com&refresh_token=${this.state.refreshToken}&grant_type=refresh_token`,
-  //     { method: 'post' })
-  //     .then((response) => response.status == 200 ? response.json() : {})
-  //     .then(json => {
-  //       console.log(json)
-  //     })
-  // }
-
-
-  //new method
-  // async revoke_Access() {
-  //   await fetch("https://oauth2.googleapis.com/revoke", {
-  //     method: 'POST',
-  //     params: { 'token': result.accessToken },
-  //     headers: { 'content-type': 'application/x-www-form-urlencoded' }
-  //   });
-  // }
-
-
-
+  
   render() {
     return (
       <View style={styles.container}>
@@ -223,34 +191,51 @@ export default class App extends React.Component {
   renderAccordians = () => {
     const items = [];
     for (item of this.state.dataSource) {
-      items.push(
-        <AccordianMenu
-          title={item.summary}
-          data={(<Text>Description :{item.description}</Text>)}
-          created_on={(<Text>Created on :{item.created}</Text>)}
-          Start={(<Text>Start at :{item.start.dateTime}</Text>)}
-          End={(<Text>Ends at :{item.end.dateTime}</Text>)}
-          Created_by={(<Text>Created by: {item.creator.email}</Text>)}
-          event_id = {item.id}
-          email_id = {this.state.email}
+      // console.log(item)
+      for(att of item['attendees']){
+        // console.log("visvanath")
+        if(att['email'] == this.state.email){
+          // console.log(att['email'])
+          // console.log(this.state.email)
+          var temp = false
 
+          if(att['checkedIn'] == "yes"){
 
-
-
-
-        //     <Text style={styles.text}>Start : {item.start.dateTime} </Text>
-        //     <Text style={styles.text}>End : {item.end.dateTime} </Text>
-        //     <Text style={styles.text}>Created By : {item.creator.email} </Text>
-
-
-        />
-      );
+            console.log("helllo")
+            temp = true
+          }
+          items.push(
+            <AccordianMenu
+              title={item.summary}
+              data={(<Text>Description :{item.description}</Text>)}
+              created_on={(<Text>Created on :{item.created}</Text>)}
+              Start={(<Text>Start at :{item.start.dateTime}</Text>)}
+              End={(<Text>Ends at :{item.end.dateTime}</Text>)}
+              Created_by={(<Text>Created by: {item.creatorEmailId}</Text>)}
+              event_id = {item.id}
+              email_id = {this.state.email}
+              checkedIn = {temp}
+              
+            />
+          );
+        }
+      }
+  //     items.push(
+  //       <AccordianMenu
+  //         title={item.summary}
+  //         data={(<Text>Description :{item.description}</Text>)}
+  //         created_on={(<Text>Created on :{item.created}</Text>)}
+  //         Start={(<Text>Start at :{item.start.dateTime}</Text>)}
+  //         End={(<Text>Ends at :{item.end.dateTime}</Text>)}
+  //         Created_by={(<Text>Created by: {item.creatorEmailId}</Text>)}
+  //         event_id = {item.id}
+  //         email_id = {this.state.email}
+  //       />
+  //     );
     }
     return items;
   }
 };
-
-
 
 const LoginPage = props => {
   return (
