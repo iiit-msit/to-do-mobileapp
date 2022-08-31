@@ -17,7 +17,7 @@
     "expo": "~37.0.3",
     "expo-google-app-auth": "^8.1.0",
     "expo-media-library": "^8.1.0",
-    "moment-timezone": "^0.5.28",
+    "moment-timezone": "^0.5.35",
     "path": "^0.12.7",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
